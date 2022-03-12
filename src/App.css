@@ -1,0 +1,82 @@
+.typing {
+  color: #3F3D56;
+  font-size: 4.7vw;
+  letter-spacing: 0.4px;
+  margin-top: 10vh;
+}
+@keyframes typing-1 {
+  from {width: 0ch;border-color: #000;visibility: visible;}
+  to {width: 23ch;border-color: #000 0;visibility: visible;}
+}
+
+.header__logo {
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+
+.header__logo>img {
+  height: 100%;
+  object-fit: contain;
+}
+
+.sideIcons {
+  margin-top: 70px;
+  background-color: #fff;
+  width: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-left: 1px solid rgb(219, 219, 219);
+}
+
+.sideIcons__top{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fileCard {
+  height: 190px;
+  width: 240px;
+  border-radius: 10px;
+  border: 1px solid rgb(219, 219, 219);
+  margin: 5px;
+  display: inline-block;
+}
+
+.fileCard--top {
+  height: 70%;
+  border-bottom: 1px solid rgb(219, 219, 219);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.fileCard--bottom {
+  /* display: flex; */
+  /* align-items: center;
+  justify-content: center; */
+  width: 100%;
+  height: 30%;
+}
+
+.fileCard--bottom>p {
+  width: 90%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#scaled-frame {
+  border: none;
+  height: 100;
+  width: 100;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.my-swal {
+  z-index: 999999 !important;
+}
