@@ -4,23 +4,90 @@ import { TextField, Tooltip, Fab, List, ListItem, ListItemText, IconButton, Typo
 import { Rating } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 import useDeLib from '../../methods/useDeLib';
-import { Add, AddCircleOutline, BookmarkBorderOutlined, Edit, GetAppOutlined } from '@material-ui/icons';
+import { Add, AddCircleOutline, Bookmark, BookmarkBorderOutlined, Edit, GetAppOutlined } from '@material-ui/icons';
 
 function BookDetails(props) {
-  const { allBooks, wallet, admin, sL, deLibC, deLibInterface, allCategories, loadDetailsSecondary, user } = props;
+  const { allBooks, wallet, admin, sL, deLibC, deLibCR, deLibInterface, allCategories, loadDetailsSecondary, user } = props;
 
-  const { updateBook, updateMyBooks, borrowBook, returnBook, rateBook } = useDeLib();  
+  const { updateBook, updateMyBooks, borrowBook, returnBook, rateBook, getMyBooks } = useDeLib();  
 
   const [details, setDetails] = useState({});
+  const [myBookIds, setMyBookIds] = useState([]);
 
   const { bookName } = useParams();
 
+  const handleDownload = () => {
+    // sL(true);
+    fetch('https://ipfs.infura.io/ipfs/' + details.fileHash, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/pdf',
+      },
+    })
+    .then((response) => {
+      response.blob() 
+    })
+    .then((blob) => {
+      // Create blob link to download
+      const url = window.URL.createObjectURL(
+        new Blob([blob]),
+      );
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute(
+        'download',
+        `download.pdf`,
+      );
+
+      // Append to html link element page
+      document.body.appendChild(link);
+
+      // sL(false);
+      // Start download
+      link.click();
+
+      // Clean up and remove the link
+      link.parentNode.removeChild(link);
+    });
+  }
+
+  const handleBookmark = async (toBook) => {
+    try {
+      sL(true);
+      if(toBook) {
+        let newIds = [...myBookIds, details.bookId];
+        await updateMyBooks(deLibC, deLibInterface, wallet, newIds);
+        await Load();
+        sL(false);
+      }
+      else {
+        let newIds = myBookIds.filter((myI) => {
+          return myI !== details.bookId;
+        })
+        await updateMyBooks(deLibC, deLibInterface, wallet, newIds);
+        await Load();
+        sL(false);
+      }
+    }
+    catch(err) {
+      console.log(err);
+      sL(false);
+    }
+  }
+
+  const Load = async () => {
+    const myCat = allBooks.filter((cat) => {
+      return cat.title === bookName;
+    })
+    setDetails(myCat[0]);
+    const res = await getMyBooks(deLibCR, wallet.address);
+    setMyBookIds(res.map((re) => parseInt(re.bookId)));
+    console.log(res.map((re) => re.bookId))
+  }
+
   useEffect(() => {
     if(bookName) {
-      const myCat = allBooks.filter((cat) => {
-        return cat.title === bookName;
-      })
-      setDetails(myCat[0]);
+      Load();
     }
   }, [bookName])
 
@@ -44,32 +111,32 @@ function BookDetails(props) {
               secondary={<Typography variant="h6" style={{cursor: 'default', color: '#808080'}}>{details && details.author}</Typography>}
             />
             <ListItemSecondaryAction>
-            {
-              wallet && admin && wallet.address === admin &&
-              <Tooltip title="Add to Category" aria-label="add">
-                <IconButton style={{border:'none',outline:'none'}}
-                  onClick={async () => {
-                    // editModeOn();
-                  }}
-                >
-                  <AddCircleOutline fontSize="large" />
-                </IconButton>
-              </Tooltip>
-            }
             
             <Tooltip title="Bookmark" aria-label="bookmark">
-              <IconButton style={{border:'none',outline:'none'}}
-                onClick={async () => {
-                  // editModeOn();
-                }}
-              >
-                <BookmarkBorderOutlined fontSize="large" />
-              </IconButton>
+              {
+                myBookIds && details && details.bookId && myBookIds.indexOf(parseInt(details.bookId)) !== -1 ?
+                <IconButton style={{border:'none',outline:'none'}}
+                  onClick={async () => {
+                    await handleBookmark(false);
+                  }}
+                >
+                  <Bookmark fontSize="large" />
+                </IconButton>
+                :
+                <IconButton style={{border:'none',outline:'none'}}
+                  onClick={async () => {
+                    await handleBookmark(true);
+                  }}
+                >
+                  <BookmarkBorderOutlined fontSize="large" />
+                </IconButton>
+              }
+              
             </Tooltip>
             <Tooltip title="Download" aria-label="download">
               <IconButton style={{border:'none',outline:'none'}}
                 onClick={async () => {
-                  // editModeOn();
+                  handleDownload();
                 }}
                 disabled={user && !(user.isMember)}
               >

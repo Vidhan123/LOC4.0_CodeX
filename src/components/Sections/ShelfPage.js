@@ -7,7 +7,7 @@ import BookCard from './BookCard';
 import useDeLib from '../../methods/useDeLib';
 
 function ShelfPage(props) {
-  const { allBooks, wallet, sL, deLibC, deLibInterface, allShelves, loadShelves } = props;
+  const { allBooks, wallet, sL, deLibC, deLibCR, deLibInterface, allShelves, loadShelves } = props;
 
   let history = useHistory();
 
@@ -16,9 +16,10 @@ function ShelfPage(props) {
   const [details, setDetails] = useState({});
   const [content, setContent] = useState([]);
   const [newData, setNewData] = useState([]);
+  const [myBooks, setMyBooks] = useState([]);
   const [editing, setEditing] = useState(false);
 
-  const { removeShelf, updateShelf } = useDeLib();
+  const { removeShelf, updateShelf, getMyBooks } = useDeLib();
 
   const handleRemoveShelf = async () => {
     try {
@@ -56,11 +57,17 @@ function ShelfPage(props) {
     }
   }
 
+  const Load = async () => {
+    const res = await getMyBooks(deLibCR, wallet.address);
+    setMyBooks(res);
+  }
+
   useEffect(() => {
     if(allShelves && shelfName) {
       const myCat = allShelves.filter((cat) => {
         return cat.name === shelfName;
       })
+      Load();
       setDetails(myCat[0]);
       setNewData(myCat[0].data);
     }
@@ -69,6 +76,9 @@ function ShelfPage(props) {
   useEffect(() => {
     if(newData && allBooks) {
       setContent(allBooks.filter((boo) => {
+        return newData.indexOf(boo.bookId) !== -1;
+      }));
+      setMyBooks(myBooks.filter((boo) => {
         return newData.indexOf(boo.bookId) !== -1;
       }));
     }
@@ -123,7 +133,7 @@ function ShelfPage(props) {
       <Divider />
       <br />
       
-      {/* Category books */}
+      {/* Shelf books */}
       {content && content.map((boo, index) => (
         <div key={boo.title}>
           <BookCard data={boo} />
@@ -140,6 +150,17 @@ function ShelfPage(props) {
           }
         </div>
       ))}
+      {myBooks && myBooks.map((boo, index) => (
+        <div key={boo.title}>
+          <BookCard data={boo} />
+          {editing && 
+            <Button variant="outlined" color="primary"
+              onClick={() => setNewData([...newData, boo.bookId])}
+            >Add</Button>
+          }
+        </div>
+      ))}
+
 
 
       {editing &&

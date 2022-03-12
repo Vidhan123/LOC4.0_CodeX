@@ -32,6 +32,8 @@ import { privateKeyToWallet } from './helpers';
 import useDeLib from './methods/useDeLib';
 import useArcanaStorage from './arcana/useArcanaStorage';
 import CategoryPage from './components/Sections/CategoryPage';
+import BookDetails from './components/Sections/BookDetails';
+import ShelfPage from './components/Sections/ShelfPage';
 
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
 
@@ -221,10 +223,30 @@ function App() {
                     />
                   </Route>
                   <Route path="/dashboard/shelves/:shelfName">
-                    Ss
+                    <ShelfPage 
+                      allBooks={allBooks} 
+                      wallet={wallet}
+                      admin={admin}
+                      sL={setLoading}
+                      deLibC={deLibC}
+                      deLibCR={deLibCR}
+                      deLibInterface={deLibInterface}
+                      allCategories={allCategories}
+                      loadDetailsSecondary={loadDetailsSecondary}
+                    />
                   </Route>
-                  <Route path="/dashboard/books/:bookId">
-                    Bb                    
+                  <Route path="/dashboard/books/:bookName">
+                    <BookDetails 
+                      allBooks={allBooks} 
+                      wallet={wallet}
+                      admin={admin}
+                      sL={setLoading}
+                      deLibC={deLibC}
+                      deLibCR={deLibCR}
+                      deLibInterface={deLibInterface}
+                      allCategories={allCategories}
+                      loadDetailsSecondary={loadDetailsSecondary}
+                    />                    
                   </Route>
                   {
                     admin === walletAddress &&
@@ -274,7 +296,13 @@ function App() {
                       }
                       {
                         section && section === "Library" &&
-                        <Library />
+                        <Library 
+                          wallet={wallet}
+                          sL={setLoading}
+                          deLibCR={deLibCR}
+                          deLibC={deLibC}
+                          deLibInterface={deLibInterface}
+                        />
                       }
                       {
                         section && section === "Dues" &&

@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import BookDetails from './components/Sections/BookDetails';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
+    {/* <BookDetails /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

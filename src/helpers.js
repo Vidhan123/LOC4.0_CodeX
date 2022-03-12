@@ -135,3 +135,4 @@ export const downloadCSV = (arr, fileTitle) => {
 
   exportCSVFile(headers, itemsFormatted, fileTitle);
 };
+
