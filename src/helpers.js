@@ -132,6 +132,24 @@ export const downloadCSV = (arr, fileTitle) => {
       });
    });
   }
+  else {
+   headers = {
+      tx_hash: 'Txn Hash',
+      tx_method: 'Method',
+      tx_age: 'Date Time (UTC)',
+      tx_value: 'Value',
+      tx_fee: '[Txn Fee]'
+    };
+    arr.forEach((item) => {
+      itemsFormatted.push({
+        tx_hash: item.hash.replace(/,/g, ''),
+        tx_method: item.method.replace(/,/g, ''),
+        tx_age: item.age.replace(/,/g, ''),
+        tx_value: item.value,
+        tx_fee: item.fee,
+      });
+    });
+  }
 
   exportCSVFile(headers, itemsFormatted, fileTitle);
 };

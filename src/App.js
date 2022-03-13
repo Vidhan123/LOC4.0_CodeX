@@ -320,6 +320,10 @@ function App() {
                         <History 
                           walletAddress={walletAddress} 
                           admin={admin}
+                          wallet={wallet}
+                          deLibC={deLibC}
+                          deLibCR={deLibCR}
+                          deLibInterface={deLibInterface}
                         />
                       }
                     </div>

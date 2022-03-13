@@ -110,7 +110,7 @@ function Library(props) {
         <ListItem>
           <ListItemText
             disableTypography
-            primary={<Typography variant="h6" style={{cursor: 'default'}}>Your shelves</Typography>}
+            primary={<Typography variant="h6" style={{cursor: 'default'}}>Your Shelves</Typography>}
           />
           <ListItemSecondaryAction>
             <Tooltip title="Add Shelf" aria-label="add">
@@ -132,7 +132,7 @@ function Library(props) {
         <ListItem>
           <ListItemText
             disableTypography
-            primary={<Typography variant="h6" style={{cursor: 'default'}}>Your books</Typography>}
+            primary={<Typography variant="h6" style={{cursor: 'default'}}>Your Books</Typography>}
           />
         </ListItem>      
         <Divider />

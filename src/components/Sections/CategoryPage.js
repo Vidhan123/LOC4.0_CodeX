@@ -61,18 +61,20 @@ function CategoryPage(props) {
       const myCat = allCategories.filter((cat) => {
         return cat.name === categoryName;
       })
-      setDetails(myCat[0]);
-      setNewData(myCat[0].data);
+      if(myCat[0]) {
+        setDetails(myCat[0]);
+        setNewData(myCat[0].data);
+      }
     }
-  }, [categoryName])
+  }, [categoryName, allCategories])
 
   useEffect(() => {
     if(newData && allBooks) {
       setContent(allBooks.filter((boo) => {
-        return newData.indexOf(boo.bookId) !== -1;
+        return newData.map((newD) => parseInt(newD)).indexOf(parseInt(boo.bookId)) !== -1;
       }));
     }
-  }, [newData, details])
+  }, [newData, details, categoryName, allCategories])
 
   return(
     <>
@@ -125,13 +127,14 @@ function CategoryPage(props) {
       
       {/* Category books */}
       {content && content.map((boo, index) => (
-        <div key={boo.title}>
+        <div key={boo.title} style={{ display: 'inline-block', textAlign: 'center' }}>
           <BookCard data={boo} />
+          <br />
           {editing && 
-            <Button variant="outlined" color="secondary"
+            <Button variant="outlined" color="secondary" style={{ width: 180 }}
               onClick={() => setNewData((prev) => {
                 let temp = prev.filter((Id) => {
-                  return Id !== boo.bookId;
+                  return parseInt(Id) !== parseInt(boo.bookId);
                 })
 
                 return ([...temp])
@@ -141,9 +144,26 @@ function CategoryPage(props) {
         </div>
       ))}
 
+      {editing && allBooks && content && allBooks
+      .filter((myB) => {
+        return (content.map((newD) => parseInt(newD)).indexOf(parseInt(myB.bookId)) === -1 && newData.map((newD) => parseInt(newD)).indexOf(parseInt(myB.bookId)) === -1);
+      })
+      .map((boo, index) => (
+        <div key={boo.title} style={{ display: 'inline-block', textAlign: 'center' }}>
+          <BookCard data={boo} />
+          <br />
+          {editing && 
+            <Button variant="outlined" color="primary" style={{ width: 180 }}
+              onClick={() => setNewData([...newData, boo.bookId])}
+            >Add</Button>
+          }
+        </div>
+      ))}
+
 
       {editing &&
         <div style={{ width: '100%', textAlign: 'center' }}>
+          <br /><br />
           <Button variant="contained" color="secondary"
           onClick={() => editModeOff()} style={{ marginRight: "25px" }}
           >Cancel</Button>

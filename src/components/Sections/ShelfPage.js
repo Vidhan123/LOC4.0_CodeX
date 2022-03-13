@@ -7,7 +7,7 @@ import BookCard from './BookCard';
 import useDeLib from '../../methods/useDeLib';
 
 function ShelfPage(props) {
-  const { allBooks, wallet, sL, deLibC, deLibCR, deLibInterface, allShelves, loadShelves } = props;
+  const { allBooks, wallet, sL, deLibC, deLibCR, deLibInterface } = props;
 
   let history = useHistory();
 
@@ -18,8 +18,14 @@ function ShelfPage(props) {
   const [newData, setNewData] = useState([]);
   const [myBooks, setMyBooks] = useState([]);
   const [editing, setEditing] = useState(false);
+  const [allShelves, setAllShelves] = useState([]);
 
-  const { removeShelf, updateShelf, getMyBooks } = useDeLib();
+  const { removeShelf, updateShelf, getMyBooks, getMyShelves } = useDeLib();
+
+  const loadShelves = async () => {
+    const res = await getMyShelves(deLibCR, wallet.address);
+    setAllShelves(res);
+  }
 
   const handleRemoveShelf = async () => {
     try {
@@ -58,8 +64,9 @@ function ShelfPage(props) {
   }
 
   const Load = async () => {
-    const res = await getMyBooks(deLibCR, wallet.address);
-    setMyBooks(res);
+    setContent(myBooks.filter((boo) => {
+      return newData.map((newD) => parseInt(newD)).indexOf(parseInt(boo.bookId)) !== -1;
+    }));
   }
 
   useEffect(() => {
@@ -67,22 +74,27 @@ function ShelfPage(props) {
       const myCat = allShelves.filter((cat) => {
         return cat.name === shelfName;
       })
-      Load();
-      setDetails(myCat[0]);
-      setNewData(myCat[0].data);
+      if(myCat[0]) {
+        setDetails(myCat[0]);
+        setNewData(myCat[0].data);
+      }
     }
-  }, [shelfName])
+  }, [shelfName, allShelves])
 
   useEffect(() => {
-    if(newData && allBooks) {
-      setContent(allBooks.filter((boo) => {
-        return newData.indexOf(boo.bookId) !== -1;
-      }));
-      setMyBooks(myBooks.filter((boo) => {
-        return newData.indexOf(boo.bookId) !== -1;
-      }));
+    if(newData && allBooks && myBooks) {
+      Load();
     }
-  }, [newData, details])
+  }, [shelfName, allBooks, newData, myBooks, allShelves])
+
+  useEffect(() => {
+    const Load = async () => {
+      await loadShelves();
+      const res = await getMyBooks(deLibCR, wallet.address);
+      setMyBooks(res);
+    }
+    Load();
+  }, [])
 
   return(
     <>
@@ -135,13 +147,14 @@ function ShelfPage(props) {
       
       {/* Shelf books */}
       {content && content.map((boo, index) => (
-        <div key={boo.title}>
+        <div key={boo.title} style={{ display: 'inline-block', textAlign: 'center' }}>
           <BookCard data={boo} />
+          <br />
           {editing && 
-            <Button variant="outlined" color="secondary"
+            <Button variant="outlined" color="secondary" style={{ width: 180 }}
               onClick={() => setNewData((prev) => {
                 let temp = prev.filter((Id) => {
-                  return Id !== boo.bookId;
+                  return parseInt(Id) !== parseInt(boo.bookId);
                 })
 
                 return ([...temp])
@@ -150,11 +163,16 @@ function ShelfPage(props) {
           }
         </div>
       ))}
-      {myBooks && myBooks.map((boo, index) => (
-        <div key={boo.title}>
+      {editing && myBooks && newData && content && myBooks
+      .filter((myB) => {
+        return (content.map((newD) => parseInt(newD)).indexOf(parseInt(myB.bookId)) === -1 && newData.map((newD) => parseInt(newD)).indexOf(parseInt(myB.bookId)) === -1);
+      })
+      .map((boo, index) => (
+        <div key={boo.title} style={{ display: 'inline-block', textAlign: 'center' }}>
           <BookCard data={boo} />
+          <br />
           {editing && 
-            <Button variant="outlined" color="primary"
+            <Button variant="outlined" color="primary" style={{ width: 180 }}
               onClick={() => setNewData([...newData, boo.bookId])}
             >Add</Button>
           }
@@ -162,7 +180,7 @@ function ShelfPage(props) {
       ))}
 
 
-
+      <br /><br />
       {editing &&
         <div style={{ width: '100%', textAlign: 'center' }}>
           <Button variant="contained" color="secondary"

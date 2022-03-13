@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
 import { useHistory, useParams } from 'react-router-dom';
 import { TextField, Tooltip, Fab, List, ListItem, ListItemText, IconButton, Typography, ListItemSecondaryAction, Card, CardContent, Button, CardMedia, CardActionArea, Grid, Divider, Box } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
@@ -15,6 +16,35 @@ function BookDetails(props) {
   const [myBookIds, setMyBookIds] = useState([]);
 
   const { bookName } = useParams();
+
+  const hanldeBorrowBook = async () => {
+    let addr = prompt("Enter borrower address", "0xF0AeCD618f4325E42D367685562e18f14a55085C");
+
+    if(addr) {
+      sL(true);
+      await borrowBook(deLibC, deLibInterface, wallet, details.bookId, addr);
+      sL(false);
+    }
+  }
+
+  const handleRateBook = async () => {
+    let r = prompt("Enter Rating", 4.5);
+    let comm = prompt("Enter Comment", "Amazing Book!")
+    sL(true);
+    await rateBook(deLibC, deLibInterface, wallet, details.bookId, ethers.utils.parseEther(r), comm);
+    await loadDetailsSecondary()
+    sL(false);
+  }
+
+  const handleReturnBook = async () => {
+    let addr = prompt("Enter borrower address", "0xF0AeCD618f4325E42D367685562e18f14a55085C");
+
+    if(addr) {
+      sL(true);
+      await returnBook(deLibC, deLibInterface, wallet, details.bookId, addr);
+      sL(false);
+    }
+  }
 
   const handleDownload = () => {
     // sL(true);
@@ -150,8 +180,8 @@ function BookDetails(props) {
           <br />
           <ListItem>
             {/* <Box component="fieldset" borderColor="transparent"> */}
-              <Rating name="read-only" value={details && parseFloat(details.avgRating)} precision={0.5} readOnly /> 
-              <Typography style={{ marginTop: '2px'}}>&nbsp;{details && parseFloat(details.avgRating)}({details && parseInt(details.reviewersCount)} ratings)</Typography>
+              <Rating name="read-only" value={details && parseFloat(details.avgRating/10**18)} precision={0.5} readOnly /> 
+              <Typography style={{ marginTop: '2px'}}>&nbsp;{details && parseFloat(details.avgRating/10**18)}({details && parseInt(details.reviewersCount)} ratings)</Typography>
             {/* </Box> */}
           </ListItem>
 
@@ -164,13 +194,13 @@ function BookDetails(props) {
           </ListItem>
           <ListItem>
           {
-              // wallet && admin && wallet.address === admin &&
+              wallet && admin && wallet.address === admin &&
               <>
                 <Button variant="contained" color="primary" style={{ marginRight: "25px" }}
-                // onClick={() => handleUpdateMembership(user.email, false)}
+                onClick={() => hanldeBorrowBook()}
                 >Issue Book</Button>
                 <Button variant="contained" color="secondary"
-                // onClick={() => handleUpdateMembership(user.email, false)}
+                onClick={() => handleReturnBook()}
                 >Return Book</Button>
               </>
           }
@@ -181,11 +211,11 @@ function BookDetails(props) {
         <Grid item xs={12}>
           <List style={{ marginRight: "100px"}}>
             <ListItem>
-              <ListItemText primary={<Typography variant="h6" style={{cursor: 'default'}}>Ratings and reviews</Typography>} />
+              <ListItemText primary={<Typography variant="h6" style={{cursor: 'default'}}>Rate this book</Typography>} />
               <ListItemSecondaryAction>
               <Tooltip title="Write Review" aria-label="write">
                 <IconButton style={{ border:'none',outline:'none' }}
-                  // onClick={() => handleOpen()}
+                  onClick={() => handleRateBook()}
                 >
                   <Edit />
                 </IconButton>

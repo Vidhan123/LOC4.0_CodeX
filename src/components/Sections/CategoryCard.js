@@ -6,14 +6,16 @@ import { Card, CardContent, CardMedia, Typography, Box, CardActionArea, CardActi
 const useStyles = makeStyles({
   root: {
     display: 'inline-block',
-    margin: '15px',
+    marginRight: '15px',
     marginTop: '10px',
     marginBottom: '0px',
-    maxWidth: 350,
+    maxWidth: 330,
   },
   card: {
-    maxWidth: 350,
-    marginBottom: '5px',
+    maxWidth: 330,
+    // marginBottom: '5px',
+    backgroundColor: '#fff',
+    boxShadow: 'none',
   },
 });
 
@@ -33,6 +35,7 @@ function CategoryCard(props) {
             alt={name}
             image={`https://ipfs.infura.io/ipfs/${displayImage}`}
             title={name}
+            style={{ border: '2px dotted' }}
           />
         </CardActionArea>
       </Card>

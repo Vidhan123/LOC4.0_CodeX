@@ -33,10 +33,10 @@ function Sidebar(props) {
       name: "Dues",
       icon: <QueryBuilder fontSize="large" />
     },
-    {
-      name: "Request",
-      icon: <AddCircleOutline fontSize="large" />
-    },
+    // {
+    //   name: "Request",
+    //   icon: <AddCircleOutline fontSize="large" />
+    // },
     {
       name: "History",
       icon: <History fontSize="large" />
@@ -46,6 +46,7 @@ function Sidebar(props) {
   const secondaryListItems = (
     <div>
       <List>
+        <br />
         <ListSubheader inset style={{cursor: 'default'}}>Account Details</ListSubheader>
         <ListItem>
           <ListItemIcon>
@@ -75,7 +76,7 @@ function Sidebar(props) {
         </ListItem>
       </List>
       <List>
-      {/* <br /> */}
+      <br />
         <Divider />
         {myItemsArray.map((item, index) => 
            <ListItem button
