@@ -7,5 +7,5 @@ module.exports = async function(deployer) {
   // const priceConsumerV3 = await PriceConsumerV3.deployed(); 
 
   // await deployer.deploy(DeLib, deployer, priceConsumerV3.address);
-  await deployer.deploy(DeLib, '0xF0AeCD618f4325E42D367685562e18f14a55085C');
+  await deployer.deploy(DeLib, '0x5bc61D9636769a514149f48220cbF9D978B5A6ea');
 }
