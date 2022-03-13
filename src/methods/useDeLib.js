@@ -111,7 +111,7 @@ function useDeLib() {
     try {
       let functionSignature = deLibInterface.encodeFunctionData("addBook", [title, author, description, coverPage, eBook, fileHash, stock]);
 
-      const gasLimit = 500000;
+      const gasLimit = 5000000;
 
       await writeHelper(deLibC, wallet, functionSignature, deLibInterface, gasLimit);
     }

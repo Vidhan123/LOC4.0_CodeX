@@ -93,7 +93,8 @@ function Main(props) {
       }
       else {
         setRecentlyAdded(allBooks.slice(Math.max(allBooks.length - 5, 0)));
-        temp.sort((a, b) => parseFloat(ethers.utils.formatEther(a.avgRating)) - parseFloat(ethers.utils.formatEther(b.avgRating)));
+        // if(temp && temp.length > 0)
+        // temp.sort((a, b) => parseInt(a.avgRating) - parseInt(b.avgRating));
         setTopRated(temp.slice(Math.max(allBooks.length - 5, 0)));
       }
     }

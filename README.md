@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# DeLib
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Video Demo: https://www.youtube.com/watch?v=feClNP4wg3M
 
-## Available Scripts
+## How to run the code
 
-In the project directory, you can run:
+0. Make sure to register DApp on Biconomy and Arcana
+1. Clone the repo https://github.com/Vidhan123/LOC4.0_CodeX
+2. npm install
+3. npm start
 
-### `npm start`
+## Technology Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Solidity
+- Arcana
+- Biconomy
+- Polygon
+- IPFS
+- Truffle
+- Ethers.js
+- React.js
+- Material-UI
+- Fuzzy Search Algorithm
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## The problem DeLib solves
 
-### `npm test`
+DeLib not just boosts up user onboarding and user experience but also provides a one-stop solution for an efficient library management system (both physical and e-Library).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Some of the features include:
+1. Inventory Management
+2. Role-based Access Control (Admin, members, and non-members)
+3. Categories
+4. Bookmark and organize books into shelves/folders
+5. Finding books in an efficient way (fuzzy search)
+6. Rating the book
+7. Exporting transactions/inventory statistics/user details as CSV
+8. Download eBooks
+9. Issue and Return Books (w.r.t. physical books)
+10. Keep track of the pending dues
 
-### `npm run build`
+No Wallet Setup required!
+No need to worry about gas fees!
+Say goodbye to annoying popups for signing transactions!
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Screenshots
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![1](/screenshots/1.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![2](/screenshots/2.png)
 
-### `npm run eject`
+![3](/screenshots/3.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+![4](/screenshots/4.png)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![5](/screenshots/5.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+![6](/screenshots/6.png)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+![7](/screenshots/7.png)
 
-## Learn More
+![7](/screenshots/8.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![7](/screenshots/9.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![7](/screenshots/10.png)
 
-### Code Splitting
+![7](/screenshots/11.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![7](/screenshots/12.png)
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![7](/screenshots/13.png)
